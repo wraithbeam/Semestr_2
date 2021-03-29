@@ -28,7 +28,7 @@ void Queue::showQueue() //Отобразить
 	while (tempElement->nextElementLink != NULL) {
 		tempElement = tempElement->nextElementLink;
 	} 
-	while (tempElement->pastElementLink != NULL)
+	for (int i = 0; i < totalRecords; i++)
 	{
 		tempElement->atsInfo.showString();
 		tempElement = tempElement->pastElementLink;
@@ -38,19 +38,7 @@ void Queue::showQueue() //Отобразить
 
 void Queue::extend(Queue* donor) //Склеивание очередей
 {
-	donor = donor->nextElementLink;
-	while (donor->nextElementLink != NULL) {
-		Queue* nextElement = new Queue;
-
-		nextElement->atsInfo = donor->atsInfo;
-		nextElement->nextElementLink = nextElementLink;
-		nextElementLink = nextElement;
-		if (this->nextElementLink->nextElementLink != NULL)
-			this->nextElementLink->nextElementLink->pastElementLink = nextElementLink;
-		totalRecords++;
-		donor = donor->nextElementLink;
-	}
-	this->nextElementLink->pastElementLink = nextElementLink;
+	
 }
 
 bool Queue::fullCheck() //Проврка забитости

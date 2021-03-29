@@ -46,6 +46,7 @@ void ATS_INFO::showString() { //Вывод (класс)
 	std::cout << "Звонок совершался с номера " << getNumber() << std::endl;
 	std::cout << "В страну " << getName() << std::endl;
 	std::cout << "Время звонка " << getHour() << " : " << getMin() << std::endl;
+	std::cout << "--------------------------------------" << std::endl;
 }
  
 void ATS_INFO::inputString() {  //Ввод с квиатуры (класс)
