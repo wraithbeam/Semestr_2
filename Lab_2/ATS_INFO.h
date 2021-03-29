@@ -2,17 +2,22 @@
 #include <string>
 
 
-class String
+class ATS_INFO
 {
+private:
+	char cityName[256];
+	int number;
+	int hour, min;
+
 public:
 	//Constuct
-	String(const char*, int, int, int);
-	String();
-	~String();
+	ATS_INFO(const char*, int, int, int);
+	ATS_INFO();
+	~ATS_INFO();
 
 	//Operators
-	bool operator== (String&);
-	bool operator!= (String&);
+	bool operator== (ATS_INFO&);
+	bool operator!= (ATS_INFO&);
 	
 
 	//Set Functions
@@ -26,6 +31,7 @@ public:
 		this->hour = _hour;
 		this->min = _min;
 	}
+	
 
 	//Get Fuctions
 	char* getName() {
@@ -44,12 +50,6 @@ public:
 	//Functions
 	void showString();
 	void inputString();
-
-private:
-	char cityName[256];
-	int number;
-	int hour, min;
-
 };
 
 

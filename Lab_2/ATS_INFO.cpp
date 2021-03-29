@@ -1,18 +1,18 @@
-#include "String.h"
+#include "ATS_INFO.h"
 
-String::String(const char* _name, int _number, int _hour, int _min) {
+ATS_INFO::ATS_INFO(const char* _name, int _number, int _hour, int _min) {
 	setName(_name);
 	setNumber(_number);
 	setData(_hour, _min);
 }
 
-String::String() {
+ATS_INFO::ATS_INFO() {
 	this->setData(-1, -1);
 	this->setName("--");
 	this->setNumber(-1);
 }
 
-bool String::operator== (String& second) //Полное сравнение 2 объектов класса
+bool ATS_INFO::operator== (ATS_INFO& second) //Полное сравнение 2 объектов класса
 {
 	int i = 0;
 	while (true)
@@ -32,23 +32,23 @@ bool String::operator== (String& second) //Полное сравнение 2 объектов класса
 	return true;
 } 
 
-bool String::operator!= (String& second)
+bool ATS_INFO::operator!= (ATS_INFO& second)
 {
 	return !(this[0] == second);
 }
 
-String::~String()
+ATS_INFO::~ATS_INFO()
 {
 
 }
 
-void String::showString() { //Вывод (класс)
+void ATS_INFO::showString() { //Вывод (класс)
 	std::cout << "Звонок совершался с номера " << getNumber() << std::endl;
 	std::cout << "В страну " << getName() << std::endl;
 	std::cout << "Время звонка " << getHour() << " : " << getMin() << std::endl;
 }
  
-void String::inputString() {  //Ввод с квиатуры (класс)
+void ATS_INFO::inputString() {  //Ввод с квиатуры (класс)
 	char name[256];
 	int number;
 	int hour, min;

@@ -141,11 +141,13 @@
   <ItemGroup>
     <ClCompile Include="Appearance.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="String.cpp" />
+    <ClCompile Include="ATS_INFO.cpp" />
+    <ClCompile Include="Queue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Appearance.h" />
-    <ClInclude Include="String.h" />
+    <ClInclude Include="ATS_INFO.h" />
+    <ClInclude Include="Queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,10 @@
 #include "appearance.h"
+#include <functional>
 
 Appearance::Appearance(int count) { //Динамический список объектов
     this->totalRecords = count;
-    ats_info = new String[count];
-    std::cout << "Сконструирован список по адресу: " << this << std::endl;
+    ats_info = new ATS_INFO[count];
+    //std::cout << "Сконструирован список по адресу: " << this << std::endl;
 }
 
 Appearance::~Appearance() {
@@ -12,7 +13,7 @@ Appearance::~Appearance() {
 
 void Appearance::appAdd(const char* _name, int _number, int _hour, int _min) {
     if (currentIndex < totalRecords) {
-        ats_info[currentIndex] = String(_name, _number, _hour, _min);
+        ats_info[currentIndex] = ATS_INFO(_name, _number, _hour, _min);
         currentIndex++;
         checkFullMass();
     }
@@ -20,7 +21,7 @@ void Appearance::appAdd(const char* _name, int _number, int _hour, int _min) {
         std::cout << "Слишком много записей" << std::endl;
 }
 
-void Appearance::appAdd(String& temp_atsInfo) {
+void Appearance::appAdd(ATS_INFO& temp_atsInfo) {
     if (currentIndex < totalRecords) {
         ats_info[currentIndex] = temp_atsInfo;
         currentIndex++;
@@ -89,93 +90,60 @@ void Appearance::checkFullMass() {
     }
 }
 
+int Appearance::getCurrentIndex() {
+    return currentIndex;
+}
+
 //Лабораторная работа 4
 
-String& Appearance::operator[](int index) {
+ATS_INFO& Appearance::operator[](int index) {
     return ats_info[index];
 }
 
 Appearance& Appearance::operator=(Appearance& second) {
     this->currentIndex = second.currentIndex;
     this->totalRecords = second.totalRecords;
-    ats_info = new String[currentIndex];
+    ats_info = new ATS_INFO[currentIndex];
     for (int i = 0; i < currentIndex; i++)
         ats_info[i] = second.ats_info[i];
     return *this;
 }
 
-int Appearance::appFind() {
-    std::cout << "Выберите критерий поиска:\n1. Страна вызова.\n2. Номер вызова.\n3. Время вызова." << std::endl;
-    int answer;
-    std::cin >> answer;
-    char city[256]; int number = -1, hour = -1, min = -1;
-    switch (answer)
-    {
-    case 1: std::cout << "Введите страну: "; std::cin >> city; break;
-    case 2: std::cout << "Введите номер: "; std::cin >> number; break;
-    case 3: std::cout << "Введите время в формате час минута: "; std::cin >> hour >> min; break;
-    default: std::cout << "Неверный ввод!\n"; break;
-    }
-    for (int i = 0; i < currentIndex; i++){
-        if (!(strcmp(ats_info[i].getName(), city)) && (answer == 1))
-            return i;
-        else if ((ats_info[i].getNumber() == number) && (answer == 2))
-            return i;
-        else if ((ats_info[i].getHour() == hour) && (ats_info[i].getMin() == min) && (answer == 3))
-            return i;
-    }
-    std::cout << "Значение не было найдено!" << std::endl << std::endl;
-    return -1;
+
+Appearance* Appearance::appFind(const function<bool(ATS_INFO&)>& func){
+    static Appearance tempFindRecords(1);
+    for (int i = 0; i < currentIndex; i++)
+        if (func(ats_info[i])) {
+            tempFindRecords.appAdd(ats_info[i]);
+            return &tempFindRecords;
+        }
+    return nullptr;
 }
 
-String* Appearance::appFindAll(){
-    std::cout << "Сортировка до последнего!\nВыберите критерий поиска:\n1. Страна вызова.\n2. Номер вызова.\n3. Время вызова." << std::endl;
-    int answer;
-    std::cin >> answer;
-    char city[256]; int number = -1, hour = -1, min = -1;
-    switch (answer)
-    {
-    case 1: std::cout << "Введите страну: "; std::cin >> city; break;
-    case 2: std::cout << "Введите номер: "; std::cin >> number; break;
-    case 3: std::cout << "Введите время в формате час минута: "; std::cin >> hour >> min; break;
-    default: std::cout << "Неверный ввод!\n"; break;
-    }
-    int* numbersOfCorrectElements = new int[currentIndex];
-    int k = 0;
-    for (int i = 0; i < currentIndex; i++) {
-        if (!(strcmp(ats_info[i].getName(), city)) && (answer == 1))
-            numbersOfCorrectElements[k++] = i;
-        else if ((ats_info[i].getNumber() == number) && (answer == 2))
-            numbersOfCorrectElements[k++] = i;
-        else if ((ats_info[i].getHour() == hour) && (ats_info[i].getMin() == min) && (answer == 3))
-            numbersOfCorrectElements[k++] = i;
-    }
-    if (k != 0)
-        return nullptr;
-    else {
-        std::cout << "Значение не было найдено!" << std::endl << std::endl;
-        numbersOfCorrectElements[0] = -1;
-        //return numbersOfCorrectElements;
-    }
-
+Appearance* Appearance::appFindAll(const function<bool(ATS_INFO&)>& func){
+    static Appearance tempFindRecords(currentIndex);
+    for (int i = 0; i < currentIndex; i++)
+        if (func(ats_info[i]))
+            tempFindRecords.appAdd(ats_info[i]);
+    return ((tempFindRecords.getCurrentIndex() > 0) ? &tempFindRecords : nullptr);
 }
 
-void Appearance::appShowFind(int numberCorrectElement)
+Appearance& Appearance::appSort(const function<bool(ATS_INFO&, ATS_INFO&)>& func)
 {
-    if(numberCorrectElement != -1)
-        std::cout << "Элемент соответствуюший фильтру " << numberCorrectElement + 1 << std::endl << std::endl;
-    else
-        std::cout << "Error: значение не было найдено!" << std::endl << std::endl;
+    static Appearance sortRecords(currentIndex);
+    sortRecords = *this;
+    for (int i = 0; i < currentIndex; i++)
+        for (int j = 0; j < currentIndex-1; j++)
+            if (func(sortRecords[j], sortRecords[j+1]))
+                sortRecords.appSwap(j, j+1);
+    return sortRecords;
 }
 
-void Appearance::appShowFind(int* numberOfCorrect)
+void Appearance::appSwap(int index1, int index2)
 {
-    std::cout << "Элементы соответствуюшие фильтру: ";
-    if (numberOfCorrect[0] != -1)
-        for (int i = 0; i < currentIndex; i++)
-            std::cout << numberOfCorrect[i] << "; ";
-    else
-        std::cout << "Error: значения не были найдены!";
-    std::cout << std::endl << std::endl;
+    ATS_INFO tempRecords;
+    tempRecords = this->ats_info[index1];
+    this->ats_info[index1] = this->ats_info[index2];
+    this->ats_info[index2] = tempRecords;
 }
 
