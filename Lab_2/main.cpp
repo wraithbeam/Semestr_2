@@ -9,6 +9,8 @@ using namespace std;
 int main()
 {
 	setlocale(0, "");
+	//Проверки класса-обертки
+
 	//setlocale(0, "");
 	//Appearance arrayFirst(5);
 	//arrayFirst.appAdd("1", 1, 24, 15);
@@ -51,24 +53,42 @@ int main()
 	Queue* queueAts = new Queue;
 	queueAts->pushQueue(first);
 	queueAts->pushQueue(second);
-	queueAts->pushQueue(thrid);
-	queueAts->pushQueue(four);
-	queueAts->pushQueue(five);
 
-	/*Queue* queueAts2 = new Queue;
-	queueAts2->pushQueue(first);
-	queueAts2->pushQueue(second);
+	Queue* queueAts1 = new Queue;
+	queueAts1->pushQueue(first);
+	queueAts1->pushQueue(second);
+
+	Queue* queueAts2 = new Queue;
 	queueAts2->pushQueue(thrid);
 	queueAts2->pushQueue(four);
-	queueAts2->pushQueue(five);*/
+	queueAts2->pushQueue(five);
 
-	//queueAts->extend(queueAts2);
-	queueAts->showQueue();
+	////Вывод
+	//queueAts->showQueue();
+	//system("pause");
+	//queueAts2->showQueue();
+
+	////Вывод с удалнием и без
 	//cout << endl;
 	//null = *queueAts->popQueue(); //Delete
 	//null.showString();
 	//null = *queueAts->peekQueue();
 	//null.showString();
 
+	//Сложение очередей
+	//queueAts->extend(queueAts2);
+	//*queueAts += queueAts2;
+	//queueAts = *queueAts + queueAts2;
+	//queueAts->showQueue();
+	
+	////Присвоить
+	//queueAts = queueAts2;
+	//queueAts->showQueue();
+
+	////Проверка на равенство
+	//if (*queueAts == *queueAts1)
+	//	cout << "\nДа\n";
+	//else 
+	//	cout << "\nНет\n";
 }
 

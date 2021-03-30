@@ -11,7 +11,7 @@ private:
 	int totalRecords = 0;
 public:
 	Queue() { nextElementLink = NULL; pastElementLink = NULL; }
-	Queue(Queue* second); //Конструктор копирования
+	Queue(Queue& second); //Конструктор копирования
 
 	void pushQueue(const ATS_INFO& atsInfo); //Добавить в конец
 	void showQueue(); 
@@ -22,9 +22,9 @@ public:
 	ATS_INFO* popQueue(); //Delete
 	ATS_INFO* peekQueue(); //With out delete
 
-	//Queue* operator=(Queue donor); //Приравнивание 
-	//Queue* operator+(Queue second); //Объединение
-	//Queue* operator+= (Queue second); //Объединение 
-	//bool operator==(Queue second); //Сравнение
+	Queue* operator=(Queue& donor); //Приравнивание 
+	Queue* operator+(Queue* second); //Объединение
+	void operator+= (Queue* second); //Объединение 
+	bool operator==(Queue& second); //Сравнение
 
 };
