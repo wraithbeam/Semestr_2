@@ -86,7 +86,7 @@ ATS_INFO* Queue::popQueue()	//Вытащить + удалить
 		tempElement->nextElementLink = nullptr;
 
 		totalRecords--;
-		return &saveFirst.atsInfo;
+		return &(saveFirst.atsInfo);
 	}
 	else
 		return NULL;
@@ -107,10 +107,13 @@ ATS_INFO* Queue::peekQueue() //прост вытащить
 		return NULL;
 }
 
-Queue* Queue::operator=(Queue& donor) //Присвоить
+Queue Queue::operator=(Queue donor) //Присвоить
 {
-	Queue tempElement(donor);
-	return &tempElement;
+	this->atsInfo = donor.atsInfo;
+	this->nextElementLink = donor.nextElementLink;
+	this->pastElementLink = donor.pastElementLink;
+	this->totalRecords = donor.totalRecords;
+	return *this;
 }
 
 Queue* Queue::operator+(Queue* second) //Расширить

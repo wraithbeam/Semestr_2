@@ -75,7 +75,7 @@ int main()
 	//null = *queueAts->peekQueue();
 	//null.showString();
 
-	//Сложение очередей
+	////Сложение очередей
 	//queueAts->extend(queueAts2);
 	//*queueAts += queueAts2;
 	//queueAts = *queueAts + queueAts2;
@@ -86,7 +86,7 @@ int main()
 	//queueAts->showQueue();
 
 	////Проверка на равенство
-	//if (*queueAts == *queueAts1)
+	//if (*queueAts == *queueAts2)
 	//	cout << "\nДа\n";
 	//else 
 	//	cout << "\nНет\n";

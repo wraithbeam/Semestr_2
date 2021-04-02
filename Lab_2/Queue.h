@@ -22,7 +22,7 @@ public:
 	ATS_INFO* popQueue(); //Delete
 	ATS_INFO* peekQueue(); //With out delete
 
-	Queue* operator=(Queue& donor); //Приравнивание 
+	Queue operator=(Queue donor); //Приравнивание 
 	Queue* operator+(Queue* second); //Объединение
 	void operator+= (Queue* second); //Объединение 
 	bool operator==(Queue& second); //Сравнение
