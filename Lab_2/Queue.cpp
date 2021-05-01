@@ -1,6 +1,13 @@
 #include "Queue.h"
 
 
+void Queue::toFirstElem(Queue& elem)
+{
+	while (elem.nextElementLink != NULL) {
+		elem = *nextElementLink;
+	}
+}
+
 Queue::Queue(Queue& second)//Копировать
 {
 	this->atsInfo = second.atsInfo;
@@ -25,9 +32,8 @@ void Queue::showQueue() //Отобразить
 {
 	Queue* tempElement = new Queue; tempElement = this;
 
-	while (tempElement->nextElementLink != NULL) {
-		tempElement = tempElement->nextElementLink;
-	} 
+	toFirstElem(*tempElement);
+
 	for (int i = 0; i < totalRecords; i++) //А вот, так захотел
 	{
 		tempElement->atsInfo.showString();
@@ -38,9 +44,8 @@ void Queue::showQueue() //Отобразить
 
 void Queue::extend(Queue* donor) //Склеивание очередей
 {
-	while (donor->nextElementLink != NULL) {
-		donor = donor->nextElementLink;
-	}
+	toFirstElem(*donor);
+
 	while (donor != NULL) { //А теперь вот так захотел
 		Queue* nextElement = new Queue;
 
@@ -105,6 +110,35 @@ ATS_INFO* Queue::peekQueue() //прост вытащить
 	}
 	else
 		return NULL;
+}
+
+ATS_INFO* Queue::find(const function<bool(ATS_INFO&)>& func)
+{
+	toFirstElem(*this);
+
+	while (!func(atsInfo)) {
+		if (pastElementLink == NULL)
+			return nullptr;
+		*this = *pastElementLink;
+	}
+	return &atsInfo;
+}
+
+ATS_INFO* Queue::findAll(const function<bool(ATS_INFO&)>& func)
+{
+	ATS_INFO* arrayATS = new ATS_INFO[totalRecords]; int k = 0;
+
+	toFirstElem(*this);
+
+	while (true) {
+		if (func(atsInfo))
+			arrayATS[k++] = atsInfo;
+		if (pastElementLink != NULL)
+			*this = *pastElementLink;
+		else break;
+	}
+	
+	return arrayATS;
 }
 
 Queue Queue::operator=(Queue donor) //Присвоить

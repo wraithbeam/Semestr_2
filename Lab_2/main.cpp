@@ -54,14 +54,27 @@ int main()
 	queueAts->pushQueue(first);
 	queueAts->pushQueue(second);
 
-	Queue* queueAts1 = new Queue;
-	queueAts1->pushQueue(first);
-	queueAts1->pushQueue(second);
-
 	Queue* queueAts2 = new Queue;
+	queueAts2->pushQueue(first);
+	queueAts2->pushQueue(second);
 	queueAts2->pushQueue(thrid);
 	queueAts2->pushQueue(four);
 	queueAts2->pushQueue(five);
+
+	ATS_INFO* prove = new ATS_INFO;
+	prove = queueAts2->find([](ATS_INFO& func) {
+		return func.getHour() == 11;
+		});
+	if(prove != NULL)
+		prove->showString();
+	
+	//ATS_INFO* prove = new ATS_INFO;
+	//prove = queueAts2->findAll([](ATS_INFO& func) {
+	//	return func.getNumber() == 123;
+	//	});
+	//for (int i = 0; i <= sizeof(prove);i++) {
+	//	prove[i].showString();
+	//}
 
 	////Вывод
 	//queueAts->showQueue();
@@ -90,5 +103,6 @@ int main()
 	//	cout << "\nДа\n";
 	//else 
 	//	cout << "\nНет\n";
+
 }
 

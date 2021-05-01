@@ -1,4 +1,6 @@
 #include "ATS_INFO.h"
+
+#include <functional>
 #include <iostream>
 
 using namespace std;
@@ -9,6 +11,9 @@ private:
 	Queue* pastElementLink;
 	ATS_INFO atsInfo;
 	int totalRecords = 0;
+
+	//func
+	void toFirstElem(Queue& elem);
 public:
 	Queue() { nextElementLink = NULL; pastElementLink = NULL; }
 	Queue(Queue& second); //Конструктор копирования
@@ -21,6 +26,8 @@ public:
 	Queue* nextQueue(); //Очередь со втрого элемента
 	ATS_INFO* popQueue(); //Delete
 	ATS_INFO* peekQueue(); //With out delete
+	ATS_INFO* find(const function<bool(ATS_INFO&)>& func); //Нахождение первого вхождения, удовлетворяющего условию
+	ATS_INFO* findAll(const function<bool(ATS_INFO&)>& func); //Нахождение всех вхождений
 
 	Queue operator=(Queue donor); //Приравнивание 
 	Queue* operator+(Queue* second); //Объединение
